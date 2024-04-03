@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Avg
+import math
 
 # Create your models here.
 
@@ -13,6 +15,17 @@ class User(models.Model):
         return f"{self.name}"
 
 
+def custom_round(number, ndigits=1):
+    """
+    Round a number to a specified number of decimal places.
+    Rounds up if the next decimal is 7 or above.
+    """
+    if number is None:
+        return 0
+    multiplier = 10**ndigits
+    return math.floor(number * multiplier + 0.5) / multiplier
+
+
 class Movie(models.Model):
     name = models.CharField(max_length=100, null=True, default=None)
     genre = models.CharField(max_length=20, null=True, default=None)
@@ -21,6 +34,14 @@ class Movie(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    @property
+    def average_rating(self):
+        avg_rating = self.movie_ratings.aggregate(Avg("rating"))["rating__avg"]
+        if avg_rating is None:
+            return 0
+        rounded_avg_rating = custom_round(avg_rating, 1)
+        return rounded_avg_rating
 
 
 class Rating(models.Model):

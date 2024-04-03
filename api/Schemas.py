@@ -1,5 +1,6 @@
 from ninja import ModelSchema, Schema
 from .models import *
+from datetime import date
 
 
 class UserSchema(ModelSchema):
@@ -9,14 +10,16 @@ class UserSchema(ModelSchema):
 
 
 class MovieSchema(ModelSchema):
+    average_rating: float
+
     class Meta:
         model = Movie
-        fields = ("id", "name", "genre", "rating", "release_date")
+        fields = "__all__"
 
 
 class RatingSchema(ModelSchema):
     user_id: UserSchema
-    movie_id: ModelSchema
+    movie_id: MovieSchema
 
     class Meta:
         model = Rating

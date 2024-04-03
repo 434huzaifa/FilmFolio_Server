@@ -5,7 +5,9 @@ from datetime import datetime
 from typing import List
 from ninja.responses import codes_4xx, codes_5xx
 
-app = NinjaAPI()
+app = NinjaAPI(
+    title="FilmFolio APIs", description="A simple movie rating site", docs_url="/"
+)
 
 
 @app.post(
@@ -28,6 +30,12 @@ def create_movie(request, movie: MovieSchemaBody):
 @app.get("movie/", response=List[MovieSchema])
 def get_movies(request):
     movies = Movie.objects.all()
+    return movies
+
+
+@app.get("movie/search/", response=List[MovieSchema])
+def search_movies(request, query: str):
+    movies = Movie.objects.filter(name__icontains=query)
     return movies
 
 
