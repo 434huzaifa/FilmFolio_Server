@@ -26,6 +26,11 @@ class RatingSchema(ModelSchema):
         fields = ("id", "user_id", "movie_id", "rating")
 
 
+class UserRatingSchema(ModelSchema):
+    class Meta:
+        model=Rating
+        fields=("movie_id","rating")
+
 class RatingSchemaBody(Schema):
     user_id: int
     movie_id: int

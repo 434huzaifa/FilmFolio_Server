@@ -77,6 +77,12 @@ def get_single_rating(request, rating_id: int):
     movie = Rating.objects.get(id=rating_id)
     return movie
 
+@app.get("/user_rating/{user_id}/",response=List[UserRatingSchema])
+def get_all_user_rating(request,user_id:int):
+    user=User.objects.get(id=user_id)
+    rating=Rating.objects.filter(user_id=user)
+    return rating
+
 @app.get("user/",response={200:UserSchema,codes_4xx:MessageSchema})
 def confirm_user(request,email:str,password:str):
     user=User.objects.filter(email=email,password=password).first()
@@ -84,3 +90,4 @@ def confirm_user(request,email:str,password:str):
         return 200,user
     else:
         return 404,{"msg":"User not found"}
+    
