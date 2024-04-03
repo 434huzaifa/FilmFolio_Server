@@ -83,4 +83,4 @@ def confirm_user(request,email:str,password:str):
     if user:
         return 200,user
     else:
-        return 404,"User not found"
+        return 404,{"msg":"User not found"}
