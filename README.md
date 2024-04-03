@@ -1,7 +1,9 @@
 # FilmFolio
 
 **Language:** Python 3.11
+
 **Database:** sqlite3
+
 **Framework:** Django with django-ninja
 
 # To Run Locally
