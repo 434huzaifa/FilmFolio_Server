@@ -1,6 +1,7 @@
 from ninja import ModelSchema, Schema
 from .models import *
 from datetime import date
+from typing import Optional
 
 
 class UserSchema(ModelSchema):
@@ -11,10 +12,23 @@ class UserSchema(ModelSchema):
 
 class MovieSchema(ModelSchema):
     average_rating: float
+    user_rating: Optional[float] = None
 
     class Meta:
         model = Movie
         fields = "__all__"
+
+    class Config:
+        orm_mode = True
+
+    def get_user_rating(self, user_id: int) -> float:
+        try:
+            rating = Rating.objects.get(
+                movie_id__id=self.id, user_id__id=user_id
+            ).rating
+            return rating
+        except Rating.DoesNotExist:
+            return 0  # Return 0 if the user does not have a rating for the movie
 
 
 class RatingSchema(ModelSchema):
@@ -28,8 +42,9 @@ class RatingSchema(ModelSchema):
 
 class UserRatingSchema(ModelSchema):
     class Meta:
-        model=Rating
-        fields=("movie_id","rating")
+        model = Rating
+        fields = ("movie_id", "rating")
+
 
 class RatingSchemaBody(Schema):
     user_id: int

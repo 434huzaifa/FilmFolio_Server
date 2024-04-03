@@ -28,21 +28,34 @@ def create_movie(request, movie: MovieSchemaBody):
 
 
 @app.get("movie/", response=List[MovieSchema])
-def get_movies(request):
+def get_movies(request, user_id: int):
     movies = Movie.objects.all()
-    return movies
+    movie_schemas = []
+    for movie in movies:
+        movie_schema = MovieSchema.from_orm(movie)
+        movie_schema.user_rating = movie_schema.get_user_rating(user_id)
+        movie_schemas.append(movie_schema)
+    return movie_schemas
 
 
 @app.get("movie/search/", response=List[MovieSchema])
-def search_movies(request, query: str):
+def search_movies(request, query: str,user_id:str):
     movies = Movie.objects.filter(name__icontains=query)
-    return movies
+    movie_schemas = []
+    for movie in movies:
+        movie_schema = MovieSchema.from_orm(movie)
+        movie_schema.user_rating = movie_schema.get_user_rating(user_id)
+        movie_schemas.append(movie_schema)
+    return movie_schemas
 
 
 @app.get("movie/{movie_id}/", response=MovieSchema)
-def get_movie(request, movie_id: int):
+def get_movie(request, movie_id: int, user_id: int):
     movie = Movie.objects.get(id=movie_id)
-    return movie
+    movie_schema = MovieSchema.from_orm(movie)
+    user_id = request.user_id
+    movie_schema.user_rating = movie_schema.get_user_rating(user_id)
+    return movie_schema
 
 
 @app.post(
@@ -77,17 +90,18 @@ def get_single_rating(request, rating_id: int):
     movie = Rating.objects.get(id=rating_id)
     return movie
 
-@app.get("/user_rating/{user_id}/",response=List[UserRatingSchema])
-def get_all_user_rating(request,user_id:int):
-    user=User.objects.get(id=user_id)
-    rating=Rating.objects.filter(user_id=user)
+
+@app.get("/user_rating/{user_id}/", response=List[UserRatingSchema])
+def get_all_user_rating(request, user_id: int):
+    user = User.objects.get(id=user_id)
+    rating = Rating.objects.filter(user_id=user)
     return rating
 
-@app.get("user/",response={200:UserSchema,codes_4xx:MessageSchema})
-def confirm_user(request,email:str,password:str):
-    user=User.objects.filter(email=email,password=password).first()
+
+@app.get("user/", response={200: UserSchema, codes_4xx: MessageSchema})
+def confirm_user(request, email: str, password: str):
+    user = User.objects.filter(email=email, password=password).first()
     if user:
-        return 200,user
+        return 200, user
     else:
-        return 404,{"msg":"User not found"}
-    
+        return 404, {"msg": "User not found"}
