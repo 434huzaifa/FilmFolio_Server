@@ -24,7 +24,7 @@ def create_movie(request, movie: MovieSchemaBody):
         movie_model = Movie.objects.create(**movie_data)
         return 201, movie_model
     except Exception as e:
-        return 500, e.message
+        return 500, str(e)
 
 
 @app.get("movie/", response=List[MovieSchema])
@@ -76,7 +76,7 @@ def create_rating(request, rating: RatingSchemaBody):
         rating_model = Rating.objects.create(**rating_data)
         return 201, rating_model
     except Exception as e:
-        return 500, e.message
+        return 500, str(e)
 
 
 @app.get("rating/", response=List[RatingSchema])

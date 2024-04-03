@@ -17,9 +17,7 @@ class MovieSchema(ModelSchema):
     class Meta:
         model = Movie
         fields = "__all__"
-
-    class Config:
-        orm_mode = True
+        from_attributes  = True
 
     def get_user_rating(self, user_id: int) -> float:
         try:
@@ -28,7 +26,7 @@ class MovieSchema(ModelSchema):
             ).rating
             return rating
         except Rating.DoesNotExist:
-            return 0  # Return 0 if the user does not have a rating for the movie
+            return -1  # Return 0 if the user does not have a rating for the movie
 
 
 class RatingSchema(ModelSchema):

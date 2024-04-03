@@ -50,6 +50,7 @@ class Rating(models.Model):
         Movie, on_delete=models.CASCADE, related_name="movie_ratings"
     )
     rating = models.FloatField(null=True, default=None)
-
+    class Meta:
+        unique_together = ('user_id', 'movie_id')
     def __str__(self):
         return f"{self.user_id}|{self.movie_id}"
