@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-cv_k+__x2y^pt8qb6wo5dj&%62+nm(=+p%^nm%3sw8qx%u1!ie
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "FilmFolio_Server.urls"
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 TEMPLATES = [
     {

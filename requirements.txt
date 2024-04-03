@@ -8,6 +8,7 @@ Django==5.0.3
 django-cors-headers==4.3.1
 django-extensions==3.2.3
 django-ninja==1.1.0
+gunicorn==21.2.0
 injector==0.21.0
 mypy-extensions==1.0.0
 packaging==24.0
