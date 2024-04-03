@@ -43,5 +43,8 @@ Password: 1
 
 # Links
 
-Live Link | Api documentation : [https://filmfolio-server.onrender.com/](https://filmfolio-server.onrender.com/)
+Frontend Link: [https://film-folio-omega.vercel.app/](https://film-folio-omega.vercel.app/)
+
+Backend Link | Api documentation : [https://filmfolio-server.onrender.com/](https://filmfolio-server.onrender.com/)
+
 Admin Panel: [https://filmfolio-server.onrender.com/admin/](https://filmfolio-server.onrender.com/admin/)
