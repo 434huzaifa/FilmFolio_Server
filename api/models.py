@@ -16,5 +16,5 @@ class Movie(models.Model):
 
 class Rating(models.Model):
     user_id=models.ForeignKey(User,on_delete=models.CASCADE)
-    movie_id=models.ForeignKey(Movie,on_delete=models.CASCADE)
+    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_ratings')
     rating=models.FloatField(null=True, default=None)
